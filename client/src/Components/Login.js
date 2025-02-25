@@ -11,7 +11,7 @@ const Login = () => {
         <Form>
           <Row>
             <Col md={3}>
-              Email
+              <p>Email:</p>
               <input
                 id="exampleText"
                 name="text"
@@ -23,7 +23,7 @@ const Login = () => {
 
           <Row>
             <Col md={3}>
-              Password
+              <p>Password:</p>
               <input
                 id="exampleText"
                 name="text"
