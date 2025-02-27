@@ -1,68 +1,75 @@
-import { Container, Row, Col, Form, Button } from "reactstrap"; //import the Reactstrap Components
-
+import { userSchema } from "../Validations/UserValidations";
+import loginImage from "../Images/loginImage.jpg";
+import {
+  Button,
+  Col,
+  Label,
+  Container,
+  Row,
+  FormGroup,
+  Input,
+  Form,
+} from "reactstrap";
+import logo from "../Images/logo-t.png";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(userSchema) });
+  const onSubmit = (data) => {
+    console.log("Form Data", data);
+  };
   return (
-    <div>
+    <Container>
       <h1>Register</h1>
-
-      <Container>
-        <Form>
-          <Row>
-            <Col md={3}>
-              <p>Name:</p>
-              <input
-                id="exampleText"
-                name="text"
-                placeholder="Enter your Name"
-                type="textarea"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={3}>
-              <p> Email:</p>
-              <input
-                id="exampleText"
-                name="text"
-                placeholder="Enter your Email"
-                type="textarea"
-              />
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={3}>
-              <p>Password:</p>
-              <input
-                id="exampleText"
-                name="text"
-                placeholder="Enter Password"
-                type="textarea"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={3}>
-              <p>Confirm Password:</p>
-              <input
-                id="exampleText"
-                name="text"
-                placeholder="Confirm Password"
-                type="textarea"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={3}></Col>
-          </Row>
-
-          <Row>
-            <Col md={3}></Col>
-          </Row>
-          <Button>Register</Button>
-        </Form>
-      </Container>
-    </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Row>
+          <Col md={6}>
+            Name<br></br>
+            <input type="text" name="name" {...register("name")}></input>
+          </Col>
+          <p className="error">{errors.name?.message}</p>
+        </Row>
+        <Row>
+          <Col md={6}>
+            Email<br></br>
+            <input type="email" name="email" {...register("email")}></input>
+          </Col>
+          <p className="error">{errors.email?.message}</p>
+        </Row>
+        <Row>
+          <Col md={6}>
+            Password<br></br>
+            <input
+              type="password"
+              name="password"
+              {...register("password")}
+            ></input>
+          </Col>
+          <p className="error">{errors.password?.message}</p>
+        </Row>
+        <Row>
+          <Col md={6}>
+            Confirm Password<br></br>
+            <input
+              type="password"
+              name="confirmPassword"
+              {...register("confirmPassword")}
+            ></input>
+          </Col>
+          <p className="error">{errors.confirmPassword?.message}</p>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <Button>Register</Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 };
 

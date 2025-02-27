@@ -14,7 +14,6 @@ export const userSchema = yup.object().shape({
   password: yup.string().min(4).max(20).required("Password is required"),
 
   confirmPassword: yup
-
     .string()
 
     .oneOf([yup.ref("password"), null], "Passwords Don't Match")
