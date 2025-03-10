@@ -1,5 +1,9 @@
-import { userSchema } from "../Validations/UserValidations";
 import loginImage from "../Images/loginImage.jpg";
+import { userSchema } from "../Validations/UserValidations";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import {
   Button,
   Col,
@@ -11,18 +15,23 @@ import {
   Form,
 } from "reactstrap";
 import logo from "../Images/logo-t.png";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
+
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(userSchema) });
+
+  const userList = useSelector((state) => state.users.value);
+
+  // Handle form submission
+
   const onSubmit = (data) => {
-    console.log("Form Data", data);
+    console.log("Form Data", data); // You can handle the form submission here
   };
+
   return (
     <Container>
       <h1>Register</h1>
@@ -57,7 +66,7 @@ const Register = () => {
             Confirm Password<br></br>
             <input
               type="password"
-              name="confirmPassword"
+              name="confirmpassword"
               {...register("confirmPassword")}
             ></input>
           </Col>
@@ -69,6 +78,22 @@ const Register = () => {
           </Col>
         </Row>
       </Form>
+      <Row>
+        <Col md={6}>
+          <h1>List of Users</h1>
+          <table className="table">
+            <tbody>
+              {userList.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.password}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Col>
+      </Row>
     </Container>
   );
 };
