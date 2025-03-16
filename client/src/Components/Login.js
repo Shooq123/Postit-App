@@ -1,4 +1,3 @@
-
 import loginImage from "../Images/loginImage.jpg";
 import {
   Button,
@@ -15,7 +14,7 @@ import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userSchema} from "../Validations/UserValidations";
+import { userSchema } from "../Validations/UserValidations";
 
 const Login = () => {
   const {
