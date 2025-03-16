@@ -1,29 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UsersData } from "../ExampleData";
 
 const initialState = { value: UsersData }; //list of user is an object with empty array as initial value
 
-export const userSlice = createSlice({
-  name: "users",
-  initialState,
-  reducers: {
-    addUser: (state, action) => {
-      state.value.push(action.payload);
-    },
-    deleteUser: (state, action) => {
-      state.value = state.value.filter((user) => user.email !== action.payload);
-    },
-    updateUser: (state, action) => {
-      state.value.map((user) => {
-        if (user.email === action.payload.email) {
-          user.name = action.payload.name;
-          user.password = action.payload.password;
-        }
-      });
-    },
-  },
+const userSlice = createSlice({
+  name: "user",
+  initialState, // the same name that we write on the const above
+  reducers: {},
 });
-
-export const { addUser, deleteUser, updateUser } = userSlice.actions; //export the function
-
 export default userSlice.reducer;
