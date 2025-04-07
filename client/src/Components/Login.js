@@ -56,6 +56,7 @@ const Login = () => {
       </Container>
       <p className="smalltext">
         No Account? <Link to="/register">Sign Up now.</Link>
+        No Account? <Link to="/update">update now.</Link>
       </p>
     </div>
   );

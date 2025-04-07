@@ -20,6 +20,10 @@ const Header = () => {
           <NavItem>
             <Link to="/register">Logout</Link>
           </NavItem>
+
+          <NavItem>
+            <Link to="/update">update User</Link>
+          </NavItem>
         </Nav>
       </Navbar>
     </>

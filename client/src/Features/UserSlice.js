@@ -10,8 +10,20 @@ const userSlice = createSlice({
     addUser: (state, action) => {
       state.value.push(action.payload);
     },
-    deleteUser: (state, action) => {},
-    updateUser: (state, action) => {},
+    deleteUser: (state, action) => {
+      state.value = state.value.filter((user) => user.email !== action.payload);
+    },
+    updateUser: (state, action) => {
+      state.value.map((user) => {
+        //iterate the  array and compare the email with the email from the payload
+
+        if (user.email === action.payload.email) {
+          user.name = action.payload.name;
+
+          user.password = action.payload.password;
+        }
+      });
+    },
   },
 });
 export const { addUser, deleteUser, updateUser } = userSlice.actions;

@@ -19,7 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { addUser, deleteUser, updateUser } from "../Features/UserSlice";
 
-const Register = () => {
+const UpdateUser = () => {
   const {
     register,
     handleSubmit,
@@ -43,9 +43,6 @@ const Register = () => {
         email: data.email,
         password: data.password,
       };
-      const handleDelete = (email) => {
-        dispatch(deleteUser(email));
-      };
       dispatch(addUser(UsersData));
     } catch (error) {
       console.log("Error.");
@@ -54,7 +51,7 @@ const Register = () => {
 
   return (
     <Container>
-      <h1>Register</h1>
+      <h1>Update</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Col md={6}>
@@ -110,36 +107,12 @@ const Register = () => {
         </Row>
         <Row>
           <Col md={6}>
-            <Button>Register</Button>
+            <Button>Update</Button>
           </Col>
         </Row>
       </Form>
-      <Row>
-        <Col md={6}>
-          <h1>List of Users</h1>
-          <table className="table">
-            <tbody>
-              {userList.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.password}</td>
-                  <td>
-                    <Button onClick={() => deleteUser(user.email)}>
-                      Delete User
-                    </Button>
-                    <Button onClick={() => updateUser(user.email)}>
-                      Update User
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Col>
-      </Row>
     </Container>
   );
 };
 
-export default Register;
+export default UpdateUser;
