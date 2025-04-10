@@ -114,7 +114,7 @@ const Register = () => {
           </Col>
         </Row>
       </Form>
-      <Row>
+      {/* <Row>
         <Col md={6}>
           <h1>List of Users</h1>
           <table className="table">
@@ -137,7 +137,7 @@ const Register = () => {
             </tbody>
           </table>
         </Col>
-      </Row>
+      </Row> */}
     </Container>
   );
 };

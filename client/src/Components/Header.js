@@ -18,7 +18,7 @@ const Header = () => {
           </NavItem>
 
           <NavItem>
-            <Link to="/register">Logout</Link>
+            <NavLink href="#">Logout</NavLink>
           </NavItem>
 
           <NavItem>
