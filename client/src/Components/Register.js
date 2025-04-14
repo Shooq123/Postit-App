@@ -19,6 +19,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { addUser, deleteUser, updateUser } from "../Features/UserSlice";
 
+import { registerUser } from "../Features/UserSlice";
+import { useNavigate } from "react-router-dom";
+
 const Register = () => {
   const {
     register,
@@ -33,6 +36,7 @@ const Register = () => {
   const [confirmpassword, setconfirmpassword] = useState("");
 
   const dispatch = useDispatch();
+  //const navigate = useNavigate();
   // Handle form submission
 
   const onSubmit = (data) => {
@@ -46,7 +50,9 @@ const Register = () => {
       const handleDelete = (email) => {
         dispatch(deleteUser(email));
       };
-      dispatch(addUser(UsersData));
+      dispatch(registerUser(UsersData));
+      alert(" All good.");
+      //navigate("/Login");
     } catch (error) {
       console.log("Error.");
     }
