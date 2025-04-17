@@ -1,63 +1,121 @@
-import LoginImages from "../Images/loginImage.jpg";
-import { Container, Row, Col, Form, Button } from "reactstrap"; //import the Reactstrap Components
+import loginImage from "../Images/loginImage.jpg";
+import {
+  Button,
+  Col,
+  Label,
+  Container,
+  Row,
+  FormGroup,
+  Input,
+  Form,
+} from "reactstrap";
+import logo from "../Images/logo-t.png";
 import { Link } from "react-router-dom";
-import { userSchema } from "../Validations/UserValidations";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { userSchemaValidation } from "../Validations/UserValidations";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../Features/UserSlice";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.users.user);
+  const isSuccess = useSelector((state) => state.users.isSuccess);
+  const isError = useSelector((state) => state.users.isError);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(userSchema) });
+  } = useForm({ resolver: yupResolver(userSchemaValidation) });
+
+  var x = 1;
+  // Handle form submission
   const onSubmit = (data) => {
-    console.log("Form Data", data);
+    console.log("Form Data", data); // You can handle the form submission here
   };
+
+  //function that will be invoked when the user clicks the login button
+
+  const handleLogin = () => {
+    const userData = {
+      email,
+      password,
+    };
+    dispatch(login(userData)); //dispatch a login action from the user slice.
+  };
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/login");
+    }
+
+    if (isSuccess) {
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
+  }, [user, isError, isSuccess]);
+
   return (
     <div>
-      <h1>Login</h1>
-
       <Container>
+        <img src={logo} />
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row>
-            <Col md={3}>
-              <p>Email:</p>
+            <Col md={5}>
+              Username<br></br>
               <input
-                id="exampleText"
-                name="text"
-                placeholder="Enter Password"
-                type="textarea"
-                {...register("email")}
-              />
+                type="email"
+                name="email"
+                onChange={(e) => setemail(e.target.value)}
+              ></input>
             </Col>
             <p className="error">{errors.email?.message}</p>
           </Row>
 
           <Row>
-            <Col md={3}>
-              <p>Password:</p>
+            <Col md={5}>
+              Password<br></br>
               <input
-                id="exampleText"
-                name="text"
-                placeholder="Enter Password"
-                type="textarea"
-                {...register("password")}
-              />
+                type="password"
+                name="password"
+                onChange={(e) => setpassword(e.target.value)}
+              ></input>
             </Col>
-            <p className="error">{errors.password?.message}</p>
+            <p className="error">{errors.email?.message}</p>
           </Row>
 
           <Row>
-            <Col md={3}></Col>
+            <Col md={5}>
+              <Button
+                color="primary"
+                className="button"
+                onClick={() => handleLogin()}
+              >
+                Sign in
+              </Button>
+            </Col>
           </Row>
-          <Button>Submit</Button>
+
+          <Row>
+            <Col md={6}>
+              <p className="smalltext">
+                No Account? <Link to="/register">Sign Up now.</Link>
+              </p>
+            </Col>
+          </Row>
         </Form>
       </Container>
-      <p className="smalltext">
-        No Account? <Link to="/register">Sign Up now.</Link>
-        No Account? <Link to="/update">update now.</Link>
-      </p>
     </div>
   );
 };

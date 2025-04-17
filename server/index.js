@@ -1,57 +1,19 @@
 import mongoose from "mongoose";
-
 import cors from "cors";
 import express from "express";
 import UserModel from "./Models/UserModel.js";
 import bcrypt from "bcrypt";
 
 const app = express();
-
 app.use(express.json());
-
 app.use(cors());
 
 //Database connection
-
 const connectString =
-  "mongodb+srv://shooq:admin123@postitcluster.us0ipov.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
-
+  "mongodb+srv://shooq:admin123@postitcluster.us0ipov.mongodb.net/?retryWrites=true&w=majority&appName=PostITCluster";
 mongoose.connect(connectString);
+//API Routes
 
-app.listen(3001, () => {
-  console.log("You are connected thank you");
-});
-
-//API ROUTES
-app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body; //using destructuring
-
-    //search the user
-
-    const user = await UserModel.findOne({ email: email });
-
-    //if not found
-
-    if (!user) {
-      return res.status(500).json({ error: "User not found." });
-    }
-
-    console.log(user);
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Authentication failed" });
-    }
-
-    //if everything is ok, send the user and message
-
-    res.status(200).json({ user, message: "Success." });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 app.post("/registerUser", async (req, res) => {
   try {
     const name = req.body.name;
@@ -61,16 +23,43 @@ app.post("/registerUser", async (req, res) => {
 
     const user = new UserModel({
       name: name,
-
       email: email,
-
       password: hashedpassword,
     });
 
     await user.save();
-
     res.send({ user: user, msg: "Added." });
   } catch (error) {
     console.log(error);
   }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body; //using destructuring
+
+    //search the user
+    const user = await UserModel.findOne({ email: email });
+    //if not found
+    if (!user) {
+      return res.status(500).json({ error: "User not found." });
+    }
+    console.log(user);
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "Authentication failed" });
+    }
+    //if everything is ok, send the user and message
+    res.status(200).json({ user, message: "Success." });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+app.post("/logout", async (req, res) => {
+  res.status(200).json({ message: "Logged out successfully" });
+});
+app.put("/updateProfile", async (req, res) => {});
+
+app.listen(3001, () => {
+  console.log("You are connected thank you");
 });
