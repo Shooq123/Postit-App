@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import UserModel from "./Models/UserModel.js";
 import bcrypt from "bcrypt";
+import PostModel from "./Models/postModel.js";
 
 const app = express();
 app.use(express.json());
@@ -10,7 +11,7 @@ app.use(cors());
 
 //Database connection
 const connectString =
-  "mongodb+srv://shooq:admin123@postitcluster.us0ipov.mongodb.net/?retryWrites=true&w=majority&appName=PostITCluster";
+  "mongodb+srv://shooq:admin123@postitcluster.us0ipov.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
 mongoose.connect(connectString);
 //API Routes
 
@@ -59,6 +60,25 @@ app.post("/logout", async (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 app.put("/updateProfile", async (req, res) => {});
+app.post("/savePost", async (req, res) => {
+  try {
+    const postMsg = req.body.postMsg;
+
+    const email = req.body.email;
+
+    const post = new PostModel({
+      postMsg: postMsg,
+
+      email: email,
+    });
+
+    await post.save();
+
+    res.send({ post: post, msg: "Added." });
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
 
 app.listen(3001, () => {
   console.log("You are connected thank you");
